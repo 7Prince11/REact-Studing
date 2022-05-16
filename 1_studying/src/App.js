@@ -4,8 +4,8 @@ import PostForm from './comp/PostForm';
 // import ClassCounter from './comp/ClassCounter';
 // import Postiteam from './comp/Postiteam';
 import PostList from './comp/PostList';
-import MyButton from './comp/UI/button/MyButton';
-import MyInput from './comp/UI/input/MyInput';
+// import MyButton from './comp/UI/button/MyButton';
+// import MyInput from './comp/UI/input/MyInput';
 // import Counter from './comp/Counter';
 import './Style/Style.css';
 
@@ -34,11 +34,18 @@ const createPost = (newPost) =>{
  
 
       
-
-
-      <PostForm create={createPost}/>
-      
-      <PostList remove={removePost} posts={posts} title={'List of posts'}/>
+ 
+    <PostForm create={createPost}/>
+    {posts.length 
+          ? <PostList remove={removePost} posts={posts} title="List of post"/>
+        :  <div style={{
+        color:'red', 
+        fontSize : '25px', 
+        fontWeight:'bold',
+        textAlign : 'center'
+      }}>No posts</div>
+    }
+ 
        
 
       
