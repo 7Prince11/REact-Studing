@@ -4,6 +4,7 @@ import PostForm from './comp/PostForm';
 // import ClassCounter from './comp/ClassCounter';
 // import Postiteam from './comp/Postiteam';
 import PostList from './comp/PostList';
+import MySelect from './comp/UI/select/MySelect';
 // import MyButton from './comp/UI/button/MyButton';
 // import MyInput from './comp/UI/input/MyInput';
 // import Counter from './comp/Counter';
@@ -24,18 +25,41 @@ const createPost = (newPost) =>{
 
  const removePost  = (post) => {
       setPosts(posts.filter(p=>p.id !== post.id))
-
-
  }
+ const [selected, setSelected] = useState();
  
+ const sortPosts=(sort)=>{
+  setSelected(sort);
+  setPosts([...posts].sort((a,b)=>a[sort].localeCompare(b[sort])))
+}
+
+
   return (
     
     <div className="App">
- 
+      
 
       
  
     <PostForm create={createPost}/>
+      <hr  style={{ margin : '20px 0 20px 0'}}/>
+      <div>
+      <MySelect
+      value={selected}
+      onChange={sortPosts}
+
+
+     defaultValue= 'Select Language'
+     options ={[
+        {value:'title', name:'By title'},
+        {value:'body',name:'By discription'},
+      ]}
+/>
+        
+
+      </div>
+      <hr  style={{ margin : '20px 0 20px 0'}}/>
+
     {posts.length 
           ? <PostList remove={removePost} posts={posts} title="List of post"/>
         :  <div style={{
