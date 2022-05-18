@@ -14,9 +14,9 @@ import './Style/Style.css';
 function App() {
   const [posts , setPosts] = useState( [
 
-    {id:1 , title:'HTML' , body: 'Hyper Text Markup Language'},
-    {id:2 , title:'JavaScript' , body: 'JavaScript is a high-level, dynamic, untyped, and interpreted programming language.'},
-    {id:3 , title:'TypeScript' , body: 'TypeScript is a strict superset of JavaScript, and is also interpreted.'},     
+    {id:1 , title:'HTML' , body: '1) HTML is the most important language in the world'},
+    {id:2 , title: '1_JS_vanilla', body: '3) JS is the most important language in the world'},
+    {id:3 , title: '3_TS' , body: '2) TS is the most important language in the world',}     
 ])
 
 const createPost = (newPost) =>{
@@ -26,38 +26,30 @@ const createPost = (newPost) =>{
  const removePost  = (post) => {
       setPosts(posts.filter(p=>p.id !== post.id))
  }
- const [selected, setSelected] = useState();
- 
+
+ const [selectedSort, setSelectedSort] = useState('');
  const sortPosts=(sort)=>{
-  setSelected(sort);
-  setPosts([...posts].sort((a,b)=>a[sort].localeCompare(b[sort])))
+  setSelectedSort(sort);
+  setPosts([...posts].sort((a,b )=>a[sort].localeCompare(b[sort])));
 }
-
-
-  return (
-    
-    <div className="App">
-      
-
-      
- 
-    <PostForm create={createPost}/>
-      <hr  style={{ margin : '20px 0 20px 0'}}/>
+return(
+  <div className="App">
+      <PostForm create={createPost}/>
+      <hr style={{margin:'15px 0'}}/>
       <div>
-      <MySelect
-      value={selected}
-      onChange={sortPosts}
-
-
-     defaultValue= 'Select Language'
-     options ={[
-        {value:'title', name:'By title'},
-        {value:'body',name:'By discription'},
-      ]}
-/>
-        
-
+         
+          <MySelect
+              value={selectedSort}
+              onChange={sortPosts}
+              defaultValue="Соpтиовка"
+              options={[
+                  {value:'title', name:'By title'},
+                  {value:'body', name:'By body'},
+              ]}
+          />
       </div>
+
+       
       <hr  style={{ margin : '20px 0 20px 0'}}/>
 
     {posts.length 
