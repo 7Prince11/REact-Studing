@@ -4,6 +4,7 @@ import PostForm from './comp/PostForm';
 // import ClassCounter from './comp/ClassCounter';
 // import Postiteam from './comp/Postiteam';
 import PostList from './comp/PostList';
+import MyInput from './comp/UI/input/MyInput';
 import MySelect from './comp/UI/select/MySelect';
 // import MyButton from './comp/UI/button/MyButton';
 // import MyInput from './comp/UI/input/MyInput';
@@ -23,6 +24,8 @@ const createPost = (newPost) =>{
     setPosts( [...posts, newPost] );
 } 
 
+
+
  const removePost  = (post) => {
       setPosts(posts.filter(p=>p.id !== post.id))
  }
@@ -30,8 +33,25 @@ const createPost = (newPost) =>{
  const [selectedSort, setSelectedSort] = useState('');
  const sortPosts=(sort)=>{
   setSelectedSort(sort);
-  setPosts([...posts].sort((a,b )=>a[sort].localeCompare(b[sort])));
+ 
 }
+
+const [searchedForQuery , setsearchedForQuery] = useState('');
+
+ 
+ 
+function getSortedPosts () {
+  console.log('Works')
+  if(selectedSort){
+    return [...posts].sort((a,b)=>a[selectedSort].localeCompare(b[selectedSort]));
+  }
+  return posts;
+
+}
+ 
+const sortedPosts  = getSortedPosts();
+
+
 return(
   <div className="App">
       <PostForm create={createPost}/>
@@ -41,7 +61,7 @@ return(
           <MySelect
               value={selectedSort}
               onChange={sortPosts}
-              defaultValue="Соpтиовка"
+              defaultValue="Sortying"
               options={[
                   {value:'title', name:'By title'},
                   {value:'body', name:'By body'},
@@ -53,7 +73,7 @@ return(
       <hr  style={{ margin : '20px 0 20px 0'}}/>
 
     {posts.length 
-          ? <PostList remove={removePost} posts={posts} title="List of post"/>
+          ? <PostList remove={removePost} posts={sortedPosts} title="List of post"/>
         :  <div style={{
         color:'red', 
         fontSize : '25px', 
@@ -63,7 +83,14 @@ return(
     }
  
        
+      <MyInput
+        value={searchedForQuery}
+        onChange={(e)=>setsearchedForQuery(e.target.value)}
 
+
+      placeholder="Search"      
+      
+      />
       
       
 
