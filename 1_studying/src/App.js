@@ -1,4 +1,4 @@
-import React , {useState , useRef}  from 'react';
+import React , {useState , useRef , useMemo}  from 'react';
 import PostForm from './comp/PostForm';
 // import './App.css'
 // import ClassCounter from './comp/ClassCounter';
@@ -40,23 +40,40 @@ const [searchedForQuery , setsearchedForQuery] = useState('');
 
  
  
-function getSortedPosts () {
+ 
+ 
+const sortedPosts  = useMemo( ()=>{
+
   console.log('Works')
   if(selectedSort){
     return [...posts].sort((a,b)=>a[selectedSort].localeCompare(b[selectedSort]));
   }
   return posts;
 
-}
- 
-const sortedPosts  = getSortedPosts();
 
+} ,  [selectedSort , posts]);
+
+
+
+const sortedAndSearchPosts = useMemo( ()=>{
+  return sortedPosts.filter(post => post.title.toLowerCase().includes(searchedForQuery))
+
+}, [searchedForQuery , sortedPosts])
 
 return(
   <div className="App">
+     <MyInput
+        value={searchedForQuery}
+        onChange={(e)=>setsearchedForQuery(e.target.value)}
+
+
+      placeholder="Search"      
+      
+      />
       <PostForm create={createPost}/>
       <hr style={{margin:'15px 0'}}/>
       <div>
+         
          
           <MySelect
               value={selectedSort}
@@ -72,8 +89,8 @@ return(
        
       <hr  style={{ margin : '20px 0 20px 0'}}/>
 
-    {posts.length 
-          ? <PostList remove={removePost} posts={sortedPosts} title="List of post"/>
+    {sortedAndSearchPosts.length 
+          ? <PostList remove={removePost} posts={sortedAndSearchPosts} title="List of post"/>
         :  <div style={{
         color:'red', 
         fontSize : '25px', 
@@ -83,14 +100,7 @@ return(
     }
  
        
-      <MyInput
-        value={searchedForQuery}
-        onChange={(e)=>setsearchedForQuery(e.target.value)}
-
-
-      placeholder="Search"      
       
-      />
       
       
 
